@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameForge - Crie Jogos Online</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/logo.svg">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.svg" alt="GameForge">
+                <span>GameForge</span>
+            </div>
+            <nav>
+                <a href="#jogos">Jogos</a>
+                <a href="#criar">Criar</a>
+                <a href="#comunidade">Comunidade</a>
+            </nav>
+            <div class="user-area">
+                <button id="loginBtn" class="btn-login">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    Entrar com Discord
+                </button>
+                <div id="userProfile" class="user-profile hidden">
+                    <img id="userAvatar" src="" alt="Avatar">
+                    <span id="userName"></span>
+                    <button id="logoutBtn">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Crie Jogos Incríveis<br><span class="gradient-text">Sem Programar</span></h1>
+            <p>Editor visual simples, poderoso e 100% gratuito</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="abrirEditor()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Começar Agora
+                </button>
+                <button class="btn-secondary" onclick="verTutorial()">Ver Tutorial</button>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+    </section>
+
+    <!-- Jogo em Destaque -->
+    <section class="featured-game">
+        <div class="container">
+            <div class="featured-badge">⭐ JOGO EM DESTAQUE</div>
+            <div class="game-card featured">
+                <div class="game-thumbnail">
+                    <iframe src="https://zomz-io.onrender.com/" frameborder="0"></iframe>
+                </div>
+                <div class="game-info">
+                    <h2>Zomz.io</h2>
+                    <p>Sobreviva à horda de zumbis neste épico jogo multijogador!</p>
+                    <div class="game-stats">
+                        <span>👥 Online agora: <strong id="playersOnline">...</strong></span>
+                        <span>🎮 Total de partidas: <strong>1.2M+</strong></span>
+                    </div>
+                    <a href="https://zomz-io.onrender.com/" target="_blank" class="btn-play">
+                        JOGAR AGORA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jogos da Comunidade -->
+    <section id="jogos" class="games-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Jogos da Comunidade</h2>
+                <div class="filters">
+                    <button class="filter active" data-filter="todos">Todos</button>
+                    <button class="filter" data-filter="novos">Novos</button>
+                    <button class="filter" data-filter="populares">Populares</button>
+                    <button class="filter" data-filter="acao">Ação</button>
+                    <button class="filter" data-filter="puzzle">Puzzle</button>
+                </div>
+            </div>
+            <div id="gamesGrid" class="games-grid">
+                <!-- Jogos carregados via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Editor (Modal) -->
+    <div id="editorModal" class="modal hidden">
+        <div class="modal-content editor-container">
+            <button class="close-modal" onclick="fecharEditor()">×</button>
+            
+            <div class="editor-header">
+                <input type="text" id="gameName" placeholder="Nome do Jogo" class="game-name-input">
+                <div class="editor-actions">
+                    <button class="btn-icon" onclick="salvarProjeto()" title="Salvar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        Salvar
+                    </button>
+                    <button class="btn-icon" onclick="testarJogo()" title="Testar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Testar
+                    </button>
+                    <button class="btn-primary" onclick="publicarJogo()">Publicar</button>
+                </div>
+            </div>
+
+            <div class="editor-workspace">
+                <!-- Sidebar de Blocos -->
+                <div class="blocks-sidebar">
+                    <div class="sidebar-header">
+                        <h3>Blocos</h3>
+                        <input type="text" placeholder="Buscar blocos..." class="search-blocks">
+                    </div>
+                    <div class="blocks-categories">
+                        <div class="category active" data-category="eventos">
+                            <div class="category-header">
+                                <span>🎯 Eventos</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="evento_inicio" draggable="true">
+                                    <span>🚀 Quando jogo inicia</span>
+                                </div>
+                                <div class="block" data-type="evento_tecla" draggable="true">
+                                    <span>⌨️ Quando tecla <input type="text" value="espaço" class="block-input"> pressionada</span>
+                                </div>
+                                <div class="block" data-type="evento_clique" draggable="true">
+                                    <span>🖱️ Quando clicado</span>
+                                </div>
+                                <div class="block" data-type="evento_colisao" draggable="true">
+                                    <span>💥 Quando tocar em <select class="block-select"><option>jogador</option><option>inimigo</option></select></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="movimento">
+                            <div class="category-header">
+                                <span>🏃 Movimento</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="mover" draggable="true">
+                                    <span>➡️ Mover <input type="number" value="10" class="block-input"> passos</span>
+                                </div>
+                                <div class="block" data-type="ir_para" draggable="true">
+                                    <span>📍 Ir para X: <input type="number" value="0" class="block-input"> Y: <input type="number" value="0" class="block-input"></span>
+                                </div>
+                                <div class="block" data-type="girar" draggable="true">
+                                    <span>🔄 Girar <input type="number" value="90" class="block-input">°</span>
+                                </div>
+                                <div class="block" data-type="velocidade" draggable="true">
+                                    <span>⚡ Definir velocidade <input type="number" value="5" class="block-input"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="aparencia">
+                            <div class="category-header">
+                                <span>🎨 Aparência</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="mostrar_sprite" draggable="true">
+                                    <span>👁️ Mostrar sprite <select class="block-select"><option>player.png</option></select></span>
+                                </div>
+                                <div class="block" data-type="esconder" draggable="true">
+                                    <span>🙈 Esconder</span>
+                                </div>
+                                <div class="block" data-type="tamanho" draggable="true">
+                                    <span>📏 Tamanho <input type="number" value="100" class="block-input">%</span>
+                                </div>
+                                <div class="block" data-type="cor" draggable="true">
+                                    <span>🌈 Cor <input type="color" value="#ff0000" class="block-input"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="controle">
+                            <div class="category-header">
+                                <span>🎮 Controle</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="esperar" draggable="true">
+                                    <span>⏱️ Esperar <input type="number" value="1" class="block-input"> segundos</span>
+                                </div>
+                                <div class="block" data-type="repetir" draggable="true">
+                                    <span>🔁 Repetir <input type="number" value="10" class="block-input"> vezes</span>
+                                </div>
+                                <div class="block" data-type="se" draggable="true">
+                                    <span>❓ Se <select class="block-select"><option>tocando borda</option><option>vida < 0</option></select></span>
+                                </div>
+                                <div class="block" data-type="para_sempre" draggable="true">
+                                    <span>♾️ Para sempre</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="variaveis">
+                            <div class="category-header">
+                                <span>📊 Variáveis</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="criar_variavel" draggable="true">
+                                    <span>➕ Criar <input type="text" value="pontos" class="block-input"> = <input type="number" value="0" class="block-input"></span>
+                                </div>
+                                <div class="block" data-type="mudar_variavel" draggable="true">
+                                    <span>✏️ Mudar <select class="block-select"><option>pontos</option><option>vida</option></select> para <input type="number" value="0" class="block-input"></span>
+                                </div>
+                                <div class="block" data-type="adicionar" draggable="true">
+                                    <span>➕ Adicionar <input type="number" value="1" class="block-input"> em <select class="block-select"><option>pontos</option></select></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="multiplayer">
+                            <div class="category-header">
+                                <span>🌐 Multiplayer</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="sincronizar" draggable="true">
+                                    <span>🔄 Sincronizar posição com todos</span>
+                                </div>
+                                <div class="block" data-type="enviar_mensagem" draggable="true">
+                                    <span>💬 Enviar mensagem <input type="text" value="olá" class="block-input"></span>
+                                </div>
+                                <div class="block" data-type="quando_receber" draggable="true">
+                                    <span>📨 Quando receber mensagem</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category" data-category="efeitos">
+                            <div class="category-header">
+                                <span>✨ Efeitos</span>
+                            </div>
+                            <div class="category-blocks">
+                                <div class="block" data-type="particulas" draggable="true">
+                                    <span>💫 Criar partículas <select class="block-select"><option>explosão</option><option>fumaça</option><option>estrelas</option></select></span>
+                                </div>
+                                <div class="block" data-type="som" draggable="true">
+                                    <span>🔊 Tocar som <select class="block-select"><option>pulo.mp3</option></select></span>
+                                </div>
+                                <div class="block" data-type="camera_tremer" draggable="true">
+                                    <span>📳 Câmera tremer <input type="number" value="5" class="block-input"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Área de Trabalho -->
+                <div class="canvas-area">
+                    <div class="canvas-tabs">
+                        <button class="tab active" data-tab="codigo">📝 Código</button>
+                        <button class="tab" data-tab="sprites">🖼️ Sprites</button>
+                        <button class="tab" data-tab="config">⚙️ Config</button>
+                    </div>
+
+                    <div id="codigoTab" class="tab-content active">
+                        <div id="blockCanvas" class="block-canvas">
+                            <div class="canvas-hint">
+                                Arraste blocos aqui para começar →
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="spritesTab" class="tab-content">
+                        <div class="sprites-manager">
+                            <button class="btn-primary" onclick="uploadSprite()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                Upload Sprite
+                            </button>
+                            <div id="spritesList" class="sprites-list">
+                                <!-- Sprites aparecem aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="configTab" class="tab-content">
+                        <div class="config-panel">
+                            <h3>Configurações do Jogo</h3>
+                            <div class="config-group">
+                                <label>Largura do Canvas</label>
+                                <input type="number" value="800" id="canvasWidth">
+                            </div>
+                            <div class="config-group">
+                                <label>Altura do Canvas</label>
+                                <input type="number" value="600" id="canvasHeight">
+                            </div>
+                            <div class="config-group">
+                                <label>Cor de Fundo</label>
+                                <input type="color" value="#87CEEB" id="bgColor">
+                            </div>
+                            <div class="config-group">
+                                <label>Física Habilitada</label>
+                                <input type="checkbox" id="physicsEnabled" checked>
+                            </div>
+                            <div class="config-group">
+                                <label>Gravidade</label>
+                                <input type="number" value="9.8" id="gravity" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="preview-panel">
+                    <div class="preview-header">
+                        <h3>Preview</h3>
+                        <button onclick="recarregarPreview()">🔄</button>
+                    </div>
+                    <div id="gamePreview" class="game-preview">
+                        <div class="preview-placeholder">
+                            Clique em "Testar" para ver o jogo
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Publicação -->
+    <div id="publishModal" class="modal hidden">
+        <div class="modal-content publish-modal">
+            <button class="close-modal" onclick="fecharPublish()">×</button>
+            <h2>Publicar Jogo</h2>
+            
+            <div class="publish-form">
+                <div class="form-group">
+                    <label>Thumbnail do Jogo</label>
+                    <div class="thumbnail-editor">
+                        <canvas id="thumbnailCanvas" width="400" height="300"></canvas>
+                        <div class="thumbnail-tools">
+                            <button onclick="capturarTela()">📸 Capturar Tela</button>
+                            <button onclick="uploadThumbnail()">📁 Upload Imagem</button>
+                            <button onclick="desenharThumbnail()">🎨 Desenhar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea id="gameDescription" rows="4" placeholder="Descreva seu jogo..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="gameCategory">
+                        <option value="acao">Ação</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="puzzle">Puzzle</option>
+                        <option value="corrida">Corrida</option>
+                        <option value="plataforma">Plataforma</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="multiplayerGame">
+                        Este jogo é multiplayer
+                    </label>
+                </div>
+
+                <button class="btn-primary btn-large" onclick="confirmarPublicacao()">
+                    Publicar Agora
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Personalização de Tema -->
+    <div id="themeModal" class="modal hidden">
+        <div class="modal-content theme-modal">
+            <button class="close-modal" onclick="fecharTheme()">×</button>
+            <h2>Personalizar Interface</h2>
+
+            <div class="theme-editor">
+                <div class="theme-preview">
+                    <div id="themePreview" class="preview-container">
+                        <!-- Preview do tema -->
+                    </div>
+                </div>
+
+                <div class="theme-controls" id="themeControls">
+                    <!-- Para visitantes -->
+                    <div class="visitor-themes">
+                        <h3>Temas Disponíveis</h3>
+                        <div class="theme-options">
+                            <div class="theme-option" data-theme="dark">🌙 Escuro</div>
+                            <div class="theme-option" data-theme="light">☀️ Claro</div>
+                            <div class="theme-option" data-theme="ocean">🌊 Oceano</div>
+                            <div class="theme-option" data-theme="forest">🌲 Floresta</div>
+                            <div class="theme-option" data-theme="sunset">🌅 Pôr do Sol</div>
+                        </div>
+                        <p class="upgrade-hint">🔓 Entre com Discord do servidor para desbloquear editor completo</p>
+                    </div>
+
+                    <!-- Para membros VIP -->
+                    <div class="vip-themes hidden">
+                        <h3>✨ Editor Completo</h3>
+                        
+                        <div class="form-group">
+                            <label>Cor Principal</label>
+                            <input type="color" id="primaryColor" value="#6366f1">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cor Secundária</label>
+                            <input type="color" id="secondaryColor" value="#8b5cf6">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cor de Fundo</label>
+                            <input type="color" id="backgroundColor" value="#0f172a">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estilo de Borda</label>
+                            <select id="borderStyle">
+                                <option value="rounded">Arredondada</option>
+                                <option value="sharp">Quadrada</option>
+                                <option value="smooth">Suave</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Imagem de Fundo</label>
+                            <button onclick="abrirDrawingEditor()">🎨 Desenhar Fundo</button>
+                            <button onclick="uploadBackground()">📁 Upload</button>
+                        </div>
+
+                        <button class="btn-primary" onclick="salvarTema()">Salvar Tema</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawing Editor (para membros VIP) -->
+    <div id="drawingModal" class="modal hidden">
+        <div class="modal-content drawing-modal">
+            <button class="close-modal" onclick="fecharDrawing()">×</button>
+            <h2>Editor de Desenho</h2>
+            
+            <div class="drawing-editor">
+                <div class="drawing-tools">
+                    <button class="tool active" data-tool="brush">🖌️ Pincel</button>
+                    <button class="tool" data-tool="eraser">🧽 Borracha</button>
+                    <button class="tool" data-tool="fill">🪣 Balde</button>
+                    <button class="tool" data-tool="line">📏 Linha</button>
+                    <button class="tool" data-tool="rect">▭ Retângulo</button>
+                    <button class="tool" data-tool="circle">⭕ Círculo</button>
+                    
+                    <div class="tool-options">
+                        <label>Cor:</label>
+                        <input type="color" id="drawColor" value="#000000">
+                        <label>Tamanho:</label>
+                        <input type="range" id="brushSize" min="1" max="50" value="5">
+                    </div>
+                    
+                    <button onclick="limparCanvas()">🗑️ Limpar</button>
+                    <button class="btn-primary" onclick="salvarDesenho()">✅ Salvar</button>
+                </div>
+                
+                <canvas id="drawingCanvas" width="800" height="600"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/gameEngine.js"></script>
+    <script src="js/themeEditor.js"></script>
+    <script src="js/drawing.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
